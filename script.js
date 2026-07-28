@@ -223,8 +223,15 @@ function atualizarDashboardCobrancas() {
         const clientes = obterClientesDoUsuario();
 
         clientes.forEach(c => {
-            somaAberto += c.valorNum;
-            if (c.status === "ATRASADO") contAtrasados++;
+            // SOMA APENAS SE NÃO ESTIVER PAGO (ignora faturas com status PAGO)
+            if (c.status !== "PAGO") {
+                somaAberto += c.valorNum;
+            }
+            
+            // Conta os atrasados
+            if (c.status === "ATRASADO") {
+                contAtrasados++;
+            }
         });
 
         elTotalAberto.innerText = `R$ ${somaAberto.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
