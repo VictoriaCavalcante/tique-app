@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tique - Entrar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- Bloco Superior -->
+        <div class="top-content">
+            <div class="logo-box">
+                <img src="assets/logo.svg" alt="Logo Tique">
+            </div>
+            <h1>Entrar</h1>
+            <!-- Mantive a frase que você gostou! -->
+            <p>Gerencie suas cobranças com facilidade</p>
+
+            <form id="loginForm" onsubmit="fazerLogin(event)">
+                <div class="input-group">
+                    <label>E-mail</label>
+                    <input type="email" id="email" value="admin@email.com" placeholder="seu@email.com" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>Senha</label>
+                    <div class="password-wrapper">
+                        <!-- O value="123" atende ao professor, mas o placeholder está lá -->
+                        <input type="password" id="senha" value="123" placeholder="••••••••" required>
+                        <span class="eye-icon" onclick="togglePassword()">
+                            <!-- Ícone de Olho em SVG para não precisar baixar imagem -->
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="forgot-password">
+                    <a href="#">Esqueceu a senha?</a>
+                </div>
+        </div>
+
+        <!-- Bloco Inferior (Empurrado para baixo pelo CSS) -->
+        <div class="bottom-content">
+                <button type="submit" class="btn-login" form="loginForm">Login</button>
+                <p class="register-link">Não tem uma conta? <a href="#">Criar conta</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
