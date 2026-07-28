@@ -1,9 +1,7 @@
-// Inicialização automática ao carregar qualquer tela
+// Inicialização automática ao carregar as telas
 document.addEventListener("DOMContentLoaded", () => {
-    atualizarDashboardCobrancas();
-    renderizarClientes();
     atualizarSaudacao();
-    carregarDadosPerfil()
+    carregarDadosPerfil();
 });
 
 // =========================================
@@ -107,10 +105,7 @@ function getChaveDoBanco() {
 }
 
 function obterClientes() {
-    const chaveBanco = getChaveDoBanco();
-    const dadosSalvos = localStorage.getItem(chaveBanco);
-    
-    // Se a gaveta dele existir, retorna. Se não, retorna vazio. Sem mocks fixos!
+    const dadosSalvos = localStorage.getItem('tique_clientes');
     return dadosSalvos ? JSON.parse(dadosSalvos) : [];
 }
 
@@ -245,7 +240,7 @@ function renderizarClientes(clientesParam) {
     const clientes = clientesParam || obterClientesDoUsuario();
     lista.innerHTML = ""; 
     
-    // Busca a mensagem personalizada salva pelo usuário na tela de Ajustes
+    // Busca a mensagem personalizada
     const emailLogado = localStorage.getItem("tique_usuario_logado");
     const usuarios = obterUsuarios();
     const usuarioAtual = usuarios.find(u => u.email === emailLogado);
@@ -258,19 +253,46 @@ function renderizarClientes(clientesParam) {
     }
 
     clientes.forEach(cliente => {
-        // Substitui as variáveis da mensagem dinâmica
         let textoWhats = textoTemplate.replace(/{{nome_cliente}}/g, cliente.nome.split(" ")[0]);
         textoWhats = textoWhats.replace(/{{valor}}/g, cliente.valor);
         textoWhats = textoWhats.replace(/{{vencimento}}/g, cliente.data);
         
         const linkWhats = `https://wa.me/${cliente.tel}?text=${encodeURIComponent(textoWhats)}`;
 
-        // Lógica de UI que já estava no seu código
-        const badgeHtml = cliente.status === "ATRASADO" 
-            ? `<span class="status-badge status-atrasado">${cliente.status}</span>` 
-            : ``;
+        // Lógica de UI para a Tag/Badge
+        let badgeHtml = '';
+        if (cliente.status === "ATRASADO") {
+            badgeHtml = `<span class="status-badge status-atrasado">${cliente.status}</span>`;
+        } else if (cliente.status === "PAGO") {
+            badgeHtml = `<span class="status-badge" style="background: #ecfdf5; color: #10b981; border: 1px solid #a7f3d0; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 700;">PAGO</span>`;
+        }
             
-        const textoData = cliente.status === "ATRASADO" ? `Venceu em ${cliente.data}` : `Vence em ${cliente.data}`;
+        // Texto dinâmico da data
+        const textoData = cliente.status === "ATRASADO" ? `Venceu em ${cliente.data}` : (cliente.status === "PAGO" ? `Recebido` : `Vence em ${cliente.data}`);
+
+        // Lógica dos Botões (Se PAGO, esconde os botões e mostra um "Check")
+        let acoesHtml = '';
+        if (cliente.status === "PAGO") {
+            acoesHtml = `
+                <span style="color: #10b981; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 4px; padding-top: 8px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Concluído
+                </span>
+            `;
+        } else {
+            acoesHtml = `
+                <div style="display: flex; gap: 6px; margin-top: 6px;">
+                    <button onclick="marcarComoPago(${cliente.id})" style="background: #f1f5f9; color: #10b981; border: none; border-radius: 8px; padding: 6px 10px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: 0.2s;" title="Marcar como recebido">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Pago
+                    </button>
+                    <a href="${linkWhats}" target="_blank" class="btn-cobrar-light">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                        Cobrar
+                    </a>
+                </div>
+            `;
+        }
 
         const card = `
             <div class="cliente-card-compact">
@@ -282,18 +304,42 @@ function renderizarClientes(clientesParam) {
                     ${badgeHtml}
                     <span class="cliente-data">${textoData}</span>
                 </div>
-                <div class="cliente-acao-compact">
+                <div class="cliente-acao-compact" style="align-items: flex-end;">
                     <h4 class="cliente-valor-compact">R$ ${cliente.valor}</h4>
-                    <a href="${linkWhats}" target="_blank" class="btn-cobrar-light">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                        Cobrar
-                    </a>
+                    ${acoesHtml}
                 </div>
             </div>
         `;
         lista.innerHTML += card;
     });
 }
+
+
+
+// Marca uma cobrança específica como PAGA
+function marcarComoPago(id) {
+    // Exibe um alerta de confirmação nativo para evitar cliques acidentais
+    if (!confirm("Confirmar o recebimento desta cobrança?")) return;
+
+    let todosClientes = obterClientes();
+    
+    // Encontra a posição exata deste cliente na lista geral
+    const index = todosClientes.findIndex(c => c.id === id);
+
+    if (index !== -1) {
+        // Altera o status
+        todosClientes[index].status = "PAGO";
+        
+        // Salva a alteração de volta no LocalStorage
+        localStorage.setItem('tique_clientes', JSON.stringify(todosClientes));
+        
+        // Roda a inicialização novamente para limpar a tela, recalcular e redesenhar os Cards
+        inicializarCobrancas();
+    }
+}
+
+
+
 
 function filtrarCobrancas(status, botaoClicado) {
     document.querySelectorAll('.cobrancas-filters .filter-pill').forEach(btn => btn.classList.remove('active'));
@@ -591,4 +637,129 @@ function inserirVariavel(variavel) {
     textArea.focus();
     textArea.selectionStart = startPos + variavel.length;
     textArea.selectionEnd = startPos + variavel.length;
+}
+
+
+
+// =========================================
+// 10. DASHBOARD (VISÃO GERAL E FILTROS)
+// =========================================
+
+function inicializarDashboard() {
+    atualizarSaudacao();
+    // Quando a tela abre, o padrão é mostrar "Este mês"
+    renderizarDashboard('Este mes');
+}
+
+// Função chamada quando você clica nas pílulas (Pills)
+function filtrarDashboard(periodo, btnElement) {
+    // 1. Remove a classe 'active' de todos os botões do dashboard
+    document.querySelectorAll('.filters .filter-pill').forEach(btn => btn.classList.remove('active'));
+    // 2. Coloca a classe 'active' apenas no botão clicado para ele ficar verde
+    btnElement.classList.add('active');
+    
+    // 3. Refaz os cálculos com o período escolhido
+    renderizarDashboard(periodo);
+}
+
+function renderizarDashboard(periodo) {
+    const clientesUsuario = obterClientesDoUsuario();
+    
+    let totalRecebido = 0;
+    let totalAReceber = 0;
+    let proximosVencimentos = [];
+
+    // Datas base para os filtros
+    const hoje = new Date();
+    // Pega o mês passado (O JS lida automaticamente com a virada de ano de Janeiro para Dezembro)
+    const dataMesPassado = new Date(hoje.getFullYear(), hoje.getMonth() - 1, 1);
+
+    const parseData = (dataStr) => {
+        const partes = dataStr.split('/');
+        return new Date(partes[2], partes[1] - 1, partes[0]);
+    };
+
+    // Filtra e soma o dinheiro
+    clientesUsuario.forEach(c => {
+        const dataCobranca = parseData(c.data);
+        let incluirNoCalculo = false;
+
+        // Lógica dos filtros
+        if (periodo === 'Geral') {
+            incluirNoCalculo = true;
+        } else if (periodo === 'Este mes') {
+            // Verifica se o mês e o ano da cobrança são iguais aos de hoje
+            if (dataCobranca.getMonth() === hoje.getMonth() && dataCobranca.getFullYear() === hoje.getFullYear()) {
+                incluirNoCalculo = true;
+            }
+        } else if (periodo === 'Mes passado') {
+            // Verifica se o mês e o ano batem com o mês passado
+            if (dataCobranca.getMonth() === dataMesPassado.getMonth() && dataCobranca.getFullYear() === dataMesPassado.getFullYear()) {
+                incluirNoCalculo = true;
+            }
+        }
+
+        if (incluirNoCalculo) {
+            if (c.status === "PAGO") {
+                totalRecebido += c.valorNum;
+            } else {
+                totalAReceber += c.valorNum;
+                proximosVencimentos.push(c); // Só entra na lista se não estiver pago
+            }
+        }
+    });
+
+    // 1. Atualiza os Valores Principais (Cards coloridos)
+    const elRecebido = document.getElementById("dashRecebido");
+    const elAReceber = document.getElementById("dashAReceber");
+    
+    if(elRecebido) elRecebido.innerText = totalRecebido.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+    if(elAReceber) elAReceber.innerText = totalAReceber.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+
+    // 2. Calcula e Atualiza a Saúde Financeira
+    const totalGeral = totalRecebido + totalAReceber;
+    let percentualRecebido = 0;
+    if (totalGeral > 0) {
+        percentualRecebido = Math.round((totalRecebido / totalGeral) * 100);
+    }
+
+    const elSaudeTexto = document.getElementById("dashSaudeTexto");
+    const elSaudeBarra = document.getElementById("dashSaudeBarra");
+
+    if(elSaudeTexto) elSaudeTexto.innerText = `${percentualRecebido}%`;
+    if(elSaudeBarra) elSaudeBarra.style.width = `${percentualRecebido}%`;
+
+    // 3. Renderiza a lista de "Próximos Vencimentos" baseada no filtro
+    const elProximos = document.getElementById("dashProximos");
+    if (elProximos) {
+        // Ordena do mais próximo a vencer para o mais distante
+        proximosVencimentos.sort((a, b) => parseData(a.data) - parseData(b.data));
+        
+        // Pega só os 3 primeiros
+        const top3 = proximosVencimentos.slice(0, 3);
+
+        if (top3.length === 0) {
+            elProximos.innerHTML = `<p style="text-align:center; color:#64748b; font-size:14px; padding: 20px 0;">Nenhuma pendência para este período. Tudo em dia!</p>`;
+            return;
+        }
+
+        // Desenha os mini-cards
+        elProximos.innerHTML = top3.map(c => {
+            const corStatus = c.status === "ATRASADO" ? "#ef4444" : "#f97316";
+            return `
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px; background: white; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div class="${c.cor}" style="width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; font-size: 14px; flex-shrink: 0;">
+                        ${c.avatar}
+                    </div>
+                    <div>
+                        <h4 style="margin: 0; font-size: 14px; color: #0f172a;">${c.nome}</h4>
+                        <p style="margin: 4px 0 0 0; font-size: 12px; color: ${corStatus}; font-weight: 600;">${c.status} • ${c.data}</p>
+                    </div>
+                </div>
+                <span style="font-weight: 700; font-size: 15px; color: #0f172a;">R$ ${c.valor}</span>
+            </div>
+            `;
+        }).join('');
+    }
 }

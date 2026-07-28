@@ -6,14 +6,13 @@
     <title>Tique - Visão Geral</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body onload="inicializarDashboard()">
 
     <div class="container dashboard-layout">
         
-        <!-- scroll-area -->
-        <div class="scroll-area">
+        <div class="scroll-area" style="padding-bottom: 24px;">
             
-            <!-- Cabeçalho Dashboard Alinhado -->
+            <!-- Cabeçalho Dashboard -->
             <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                 <div>
                     <span class="greeting" id="textoSaudacao" style="display: block;">Bom dia</span>
@@ -31,10 +30,12 @@
 
             <!-- Filtros -->
             <div class="filters">
-                <button class="filter-pill active">Este mês</button>
-                <button class="filter-pill">Geral</button>
-                <button class="filter-pill">Mês passado</button>
+                <!-- Passamos 'Este mes' como padrão -->
+                <button class="filter-pill" onclick="filtrarDashboard('Geral', this)">Geral</button>
+                <button class="filter-pill active" onclick="filtrarDashboard('Este mes', this)">Este mês</button>
+                <button class="filter-pill" onclick="filtrarDashboard('Mes passado', this)">Mês passado</button>
             </div>
+
 
             <!-- Cards de Resumo -->
             <div class="summary-cards">
@@ -43,7 +44,7 @@
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
                     </div>
                     <span class="card-label">RECEBIDO</span>
-                    <h3 class="card-value">R$ 9.140</h3>
+                    <h3 class="card-value" id="dashRecebido">R$ 0,00</h3>
                 </div>
                 
                 <div class="card card-orange">
@@ -51,7 +52,7 @@
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                     </div>
                     <span class="card-label">A RECEBER</span>
-                    <h3 class="card-value">R$ 8.400</h3>
+                    <h3 class="card-value" id="dashAReceber">R$ 0,00</h3>
                 </div>
             </div>
 
@@ -62,10 +63,10 @@
                         <h4>Saúde Financeira</h4>
                         <span class="health-subtitle">Recebido vs. A Receber</span>
                     </div>
-                    <span class="health-percent">52%</span>
+                    <span class="health-percent" id="dashSaudeTexto">0%</span>
                 </div>
                 <div class="progress-track">
-                    <div class="progress-fill" style="width: 52%;"></div>
+                    <div class="progress-fill" id="dashSaudeBarra" style="width: 0%;"></div>
                 </div>
                 <div class="health-legend">
                     <span><span class="dot dot-green"></span> Recebido</span>
@@ -73,37 +74,12 @@
                 </div>
             </div>
 
-            <!-- Top Categorias -->
-            <h3 class="section-title">Top Categorias</h3>
-            <div class="category-list">
-                
-                <div class="category-item">
-                    <div class="cat-icon bg-green-light">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-                    </div>
-                    <div class="cat-info">
-                        <div class="cat-header">
-                            <span class="cat-name">Consultoria</span>
-                            <span class="cat-value">R$ 4.200</span>
-                        </div>
-                        <div class="cat-track"><div class="cat-fill bg-green" style="width: 70%;"></div></div>
-                    </div>
-                </div>
-
-                <div class="category-item">
-                    <div class="cat-icon bg-purple-light">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-                    </div>
-                    <div class="cat-info">
-                        <div class="cat-header">
-                            <span class="cat-name">Design</span>
-                            <span class="cat-value">R$ 2.800</span>
-                        </div>
-                        <div class="cat-track"><div class="cat-fill bg-purple" style="width: 45%;"></div></div>
-                    </div>
-                </div>
-
+            <!-- Substituímos Categorias por Próximos Vencimentos -->
+            <h3 class="section-title">Próximos Vencimentos</h3>
+            <div class="category-list" id="dashProximos">
+                <!-- Os mini-cards entrarão aqui dinamicamente -->
             </div>
+            
         </div> <!-- Fim da scroll-area -->
 
         <!-- Menu de Navegação Inferior -->
