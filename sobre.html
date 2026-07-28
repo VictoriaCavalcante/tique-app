@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tique - Sobre</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .login-layout {
+            align-items: flex-start !important;
+            padding: 24px !important;
+            min-height: 100vh;
+        }
+        .top-content {
+            text-align: left !important;
+            width: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+        }
+        /* Efeito de hover no LinkedIn */
+        .linkedin-link:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-layout" id="areaSobre">
+        
+        <div class="top-content" style="margin-top: 20px;">
+            <button class="btn-icon" onclick="window.location.href='ajustes.html'" style="margin-bottom: 24px; background: transparent; border: 1px solid #e2e8f0; width: 44px; height: 44px; border-radius: 12px; display: flex; justify-content: center; align-items: center; cursor: pointer;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </button>
+            
+            <h1 class="logo-text" style="font-size: 28px; margin-bottom: 8px;">Sobre o App</h1>
+        </div>
+
+        <div class="middle-content" style="width: 100%; margin-top: 16px; text-align: center;">
+            <div style="background: #ffffff; padding: 32px 20px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.03); position: relative; overflow: hidden;">
+                
+                <object data="assets/logo-animada.svg" type="image/svg+xml" style="width: 72px; height: 72px; margin-bottom: 16px; pointer-events: none;"></object>
+                
+                <!-- Logo e Versão -->
+                <h2 class="logo-text" style="font-size: 36px; margin-bottom: 4px;">Tique<span>.</span></h2>
+                <p style="color: #64748b; font-size: 14px; margin-bottom: 24px; font-weight: 500;">Versão 1.0.0 (MVP)</p>
+                
+                <!-- Descrição -->
+                <p style="color: #475569; font-size: 15px; line-height: 1.6; margin-bottom: 24px; text-align: left;">
+                    Aplicativo desenvolvido para facilitar a gestão de cobranças. Uma ferramenta prática para organizar vencimentos e automatizar o envio de lembretes pelo WhatsApp.
+                </p>
+
+                <!-- Explicação do Nome (Destaque Verde) -->
+                <div style="background: #ecfdf5; border-left: 4px solid #10b981; padding: 16px; border-radius: 0 8px 8px 0; text-align: left; margin-bottom: 32px;">
+                    <p style="margin: 0; font-size: 14px; color: #065f46; line-height: 1.5;">
+                        <strong>Por que "Tique"?</strong><br>
+                        O nome faz alusão ao símbolo de <i>check</i> (✓) — aquele "tiquezinho" satisfatório de quando concluímos uma tarefa e recebemos uma cobrança com sucesso!
+                    </p>
+                </div>
+
+                <!-- Área de Créditos -->
+                <div style="text-align: left; background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #f1f5f9;">
+                    <p style="font-size: 13px; color: #64748b; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Desenvolvido por</p>
+                    
+                    <!-- Nome com Link do LinkedIn -->
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+                        <p style="font-size: 16px; font-weight: 700; color: #0f172a; margin: 0;">Victória Cavalcante</p>
+                        <a href="https://www.linkedin.com/in/victoriaklcavalcante/" target="_blank" class="linkedin-link" style="color: #0a66c2; display: flex; align-items: center; transition: transform 0.2s; text-decoration: none;" title="Conectar no LinkedIn">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <p style="font-size: 13px; color: #64748b; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Orientação</p>
+                    <p style="font-size: 16px; font-weight: 700; color: #0f172a; margin: 0;">Prof. Dr. Flávio Miranda de Farias</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script com Efeito Especial (Easter Egg) -->
+    <script>
+        document.addEventListener('click', function(e) {
+            // Ignora o clique se for em um botão, link ou SVG (para não atrapalhar a navegação)
+            if (e.target.closest('button') || e.target.closest('a') || e.target.closest('svg')) {
+                return;
+            }
+            
+            // Cria o elemento de "check"
+            const tick = document.createElement('div');
+            tick.textContent = '✓';
+            tick.style.position = 'fixed';
+            // Centraliza no local do clique
+            tick.style.left = (e.clientX - 10) + 'px';
+            tick.style.top = (e.clientY - 15) + 'px';
+            tick.style.color = '#10b981'; // Verde padrão do Tique
+            tick.style.fontSize = '28px';
+            tick.style.fontWeight = 'bold';
+            tick.style.pointerEvents = 'none'; // Impede que ele bloqueie outros cliques
+            tick.style.transition = 'all 0.8s ease-out';
+            tick.style.zIndex = '9999';
+            tick.style.opacity = '1';
+            
+            document.body.appendChild(tick);
+            
+            // Inicia a animação de subir e sumir
+            setTimeout(() => {
+                tick.style.transform = 'translateY(-60px) scale(1.5)';
+                tick.style.opacity = '0';
+            }, 10);
+            
+            // Remove do HTML depois que a animação termina
+            setTimeout(() => {
+                tick.remove();
+            }, 800);
+        });
+    </script>
+</body>
+</html>

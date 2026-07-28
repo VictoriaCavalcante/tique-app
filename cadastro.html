@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tique - Criar Conta</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-layout">
+        <div class="top-content" style="margin-top: 40px;">
+            <h1 class="logo-text">Tique<span>.</span></h1>
+            <p class="subtitle">Crie sua conta para começar a gerenciar suas cobranças.</p>
+        </div>
+
+        <div class="middle-content">
+            <form id="cadastroForm" onsubmit="cadastrarUsuario(event)">
+                <div class="input-group">
+                    <label>Nome Completo</label>
+                    <input type="text" id="cadNome" placeholder="Seu nome" required>
+                </div>
+                <div class="input-group">
+                    <label>E-mail</label>
+                    <input type="email" id="cadEmail" placeholder="seu@email.com" required>
+                </div>
+                <div class="input-group">
+                    <label>Senha</label>
+                    <input type="password" id="cadSenha" placeholder="Crie uma senha" required>
+                </div>
+
+                <button type="submit" class="btn-login" style="margin-top: 16px;">Criar Conta</button>
+                <p class="register-link">Já tem uma conta? <a href="index.html">Fazer login</a></p>
+            </form>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

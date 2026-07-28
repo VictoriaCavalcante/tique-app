@@ -469,136 +469,312 @@ input:focus {
 
 
 /* =========================================
-   ESTILOS DA TELA DE COBRANÇAS
+ VISUAL DA TELA DE COBRANÇAS
 ========================================= */
 
-.flex-header {
+.cobrancas-header {
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.cobrancas-header h2 {
+    font-size: 28px;
+    color: #0f172a;
+    margin-top: 4px;
+}
+
+/* Card Escuro de Resumo */
+.summary-dark-card {
+    background-color: #1a2b4c; /* Azul marinho elegante */
+    border-radius: 20px;
+    padding: 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.btn-icon {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-    transition: all 0.2s;
-}
-
-.btn-icon:hover {
-    background: #f1f5f9;
-}
-
-.search-bar {
-    display: flex;
-    align-items: center;
-    background: #ffffff;
-    padding: 0 16px;
-    border-radius: 16px;
-    border: 1px solid #e2e8f0;
     margin-bottom: 24px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(26, 43, 76, 0.2);
 }
 
-.search-bar input {
-    border: none;
-    box-shadow: none;
-    padding: 14px 12px;
-    background: transparent;
-    width: 100%;
-    color: #0f172a;
-    font-size: 14px;
+.summary-left, .summary-right {
+    position: relative;
+    z-index: 2;
 }
 
-.search-bar input:focus {
-    box-shadow: none;
-    outline: none;
+.summary-right {
+    text-align: right;
 }
 
-.clientes-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+.summary-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #94a3b8;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 6px;
+    text-transform: uppercase;
 }
 
-.cliente-card {
+.summary-value {
+    font-size: 24px;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.summary-highlight {
+    font-size: 28px;
+    color: #f87171; /* Vermelho/Laranja */
+    font-weight: 700;
+}
+
+.circle-decoration {
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+/* Ajuste dos Filtros */
+.cobrancas-filters {
+    margin-bottom: 20px;
+}
+
+/* Card Compacto de Cliente */
+.cliente-card-compact {
     background: #ffffff;
-    border-radius: 24px;
-    padding: 20px;
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
 }
 
-.cliente-header {
+.cliente-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 16px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid #f1f5f9;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 16px;
+    color: #1e293b;
 }
 
-.cliente-nome {
-    font-size: 16px;
+/* Cores das Iniciais (Avatares) */
+.bg-yellow { background-color: #fde68a; }
+.bg-red { background-color: #fecaca; color: #991b1b; }
+.bg-blue { background-color: #bfdbfe; color: #1e40af; }
+.bg-green-av { background-color: #bbf7d0; color: #166534; }
+.bg-purple-av { background-color: #e9d5ff; color: #6b21a8; }
+.bg-gray-av { background-color: #f1f5f9; } /* Para o cliente extra */
+
+.cliente-info-compact {
+    flex: 1;
+}
+
+.cliente-nome-compact {
+    font-size: 15px;
+    font-weight: 700;
     color: #0f172a;
     margin-bottom: 4px;
 }
 
-.cliente-servico {
-    font-size: 13px;
+.cliente-data {
+    font-size: 12px;
     color: #94a3b8;
+    margin-top: 4px;
+    display: block;
 }
 
-.text-right {
-    text-align: right;
+.cliente-acao-compact {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
 }
 
-.cliente-valor {
-    font-size: 16px;
+.cliente-valor-compact {
+    font-size: 14px;
+    font-weight: 700;
     color: #0f172a;
-    margin-bottom: 6px;
+}
+
+/* Botão de Cobrar Claro */
+.btn-cobrar-light {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background-color: #d1fae5;
+    color: #10b981;
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btn-cobrar-light:hover {
+    background-color: #bbf7d0;
+}
+
+/* Botão Flutuante (FAB) */
+.relative-area {
+    position: relative;
+}
+
+.fab-button {
+    position: absolute; /* ou fixed, dependendo de como estruturamos */
+    bottom: 20px; /* <--- Aumente este valor para ele subir (ex: de 20px/30px para 85px) */
+    right: 24px;  /* <--- Distância da bordinha direita */
+    width: 56px;
+    height: 56px;
+    background-color: #10b981;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    border: none;
+    cursor: pointer;
+    z-index: 100; /* Garante que ele fique por cima de tudo */
+}
+
+.fab-button:hover {
+    transform: scale(1.05);
+    background-color: #059669;
+}
+
+@media (max-width: 480px) {
+    .fab-button {
+        right: 24px; /* No celular encosta à direita normalmente */
+    }
 }
 
 .status-badge {
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 6px;
     display: inline-block;
-}
-
-.status-vencer {
-    background: #fef9c3;
-    color: #ca8a04;
+    margin-bottom: 2px;
+    letter-spacing: 0.5px;
 }
 
 .status-atrasado {
-    background: #fee2e2;
-    color: #ef4444;
+    background-color: #fee2e2; /* Fundo vermelho bem claro */
+    color: #ef4444; /* Texto vermelho escuro/vivo */
 }
 
-.btn-whatsapp {
+
+
+
+
+
+/* =========================================
+   TELA DE AJUSTES
+========================================= */
+
+.profile-card {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    padding: 14px;
-    background-color: #25D366; /* Verde oficial do WhatsApp */
-    color: #ffffff;
-    text-decoration: none;
-    border-radius: 16px;
-    font-size: 15px;
-    font-weight: 600;
-    transition: background 0.2s;
-    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+    gap: 16px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 24px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    margin-bottom: 32px;
 }
 
-.btn-whatsapp:hover {
-    background-color: #1ebd5a;
+.profile-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background-color: #0f172a;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.profile-info h3 {
+    font-size: 18px;
+    color: #0f172a;
+    margin-bottom: 4px;
+}
+
+.profile-info p {
+    font-size: 14px;
+    color: #64748b;
+}
+
+.settings-group {
+    margin-bottom: 24px;
+}
+
+.settings-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #94a3b8;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+    padding-left: 8px;
+}
+
+.settings-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    padding: 16px;
+    margin-bottom: 12px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    transition: background 0.2s;
+}
+
+.settings-item:hover {
+    background: #f8fafc;
+}
+
+.settings-item-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.settings-item-left span {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.settings-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.settings-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.chevron {
+    stroke: #cbd5e1;
+    width: 20px;
+    height: 20px;
 }

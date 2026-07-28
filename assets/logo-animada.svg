@@ -1,0 +1,50 @@
+<svg width="256" height="256" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  
+  <style>
+    /* Agrupamento do rosto: define o centro de rotação no meio do app */
+    .rosto {
+      transform-origin: 50px 50px;
+      /* A animação dura 4 segundos e fica repetindo infinitamente */
+      animation: animacao-rosto 4s infinite ease-in-out;
+    }
+
+    /* Olho direito: define o centro de achatamento exatamente no meio deste olho */
+    .olho-direito {
+      transform-origin: 61px 36px;
+      animation: animacao-olho 4s infinite ease-in-out;
+    }
+
+    /* Animação do Rosto: Ele fica parado, aí dá uma viradinha (8 graus) e volta */
+    @keyframes animacao-rosto {
+      0%, 45%, 55%, 100% { transform: rotate(0deg) translate(0px, 0px); }
+      48%, 52% { transform: rotate(8deg) translate(2px, -1px); }
+    }
+
+    /* Animação do Olho: Ele esmaga o eixo Y (escala de 0.1) simulando a pálpebra */
+    @keyframes animacao-olho {
+      0%, 47%, 53%, 100% { transform: scaleY(1); }
+      50% { transform: scaleY(0.1); }
+    }
+  </style>
+
+  <!-- Fundo do App (Azul Marinho com bordas arredondadas) -->
+  <rect width="100" height="100" rx="24" fill="#1C1A4A" />
+
+  <!-- GRUPO DO ROSTO: Tudo que está aqui dentro vai girar junto -->
+  <g class="rosto">
+    <!-- Olho Esquerdo (Fica sempre aberto) -->
+    <circle cx="39" cy="36" r="5.5" fill="#0DD181" />
+
+    <!-- Olho Direito (Este tem a classe para piscar) -->
+    <circle class="olho-direito" cx="61" cy="36" r="5.5" fill="#0DD181" />
+
+    <!-- Sorriso em Check (Verde Esmeralda Vibrante) -->
+    <path d="M 33 54 L 48 69 L 72 44" 
+          stroke="#0DD181" 
+          stroke-width="9.5" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" 
+          fill="none" />
+  </g>
+
+</svg>

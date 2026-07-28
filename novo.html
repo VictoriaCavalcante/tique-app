@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tique - Nova Cobrança</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container dashboard-layout">
+        
+        <!-- A área do formulário ocupa a tela toda (sem menu inferior) -->
+        <div class="scroll-area" style="padding-bottom: 32px;">
+            
+            <!-- Cabeçalho com botão de Voltar -->
+            <header class="cobrancas-header flex-header" style="align-items: center; gap: 12px; margin-bottom: 32px;">
+                <button class="btn-icon" onclick="window.location.href='cobrancas.html'" style="width: 48px; height: 48px;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                </button>
+                <h2 style="margin: 0; font-size: 24px;">Nova Cobrança</h2>
+            </header>
+
+            <!-- Formulário -->
+            <form id="formNovaCobranca" onsubmit="salvarNovaCobranca(event)">
+                
+                <div class="input-group">
+                    <label>Nome do Cliente</label>
+                    <input type="text" id="novoNome" placeholder="Ex: João Silva" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>Valor da Cobrança (R$)</label>
+                    <!-- step="0.01" permite centavos -->
+                    <input type="number" step="0.01" id="novoValor" placeholder="Ex: 1500.00" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>Data de Vencimento</label>
+                    <input type="date" id="novoData" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>WhatsApp (com DDD)</label>
+                    <input type="text" id="novoWhats" placeholder="Ex: 68999999999" required>
+                </div>
+
+                <!-- Nosso botão de login reaproveitado, pois já tem o estilo perfeito -->
+                <button type="submit" class="btn-login" style="margin-top: 16px;">Salvar Cobrança</button>
+            </form>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

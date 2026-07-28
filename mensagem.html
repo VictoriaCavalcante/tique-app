@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tique - Mensagem Padrão</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onload="carregarMensagem()">
+    <div class="login-layout">
+        
+        <div class="top-content" style="margin-top: 40px; display: flex; flex-direction: column; align-items: flex-start; text-align: left; width: 100%;">
+            <button class="btn-icon" onclick="window.location.href='ajustes.html'" style="margin-bottom: 24px; background: transparent; border: 1px solid #e2e8f0; width: 44px; height: 44px; border-radius: 12px; display: flex; justify-content: center; align-items: center; cursor: pointer;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </button>
+            
+            <h1 class="logo-text" style="font-size: 28px; margin-bottom: 8px;">Mensagem</h1>
+            <p class="subtitle" style="margin: 0;">Personalize o texto padrão que será enviado nas cobranças via WhatsApp.</p>
+        </div>
+
+        <div class="middle-content" style="width: 100%; margin-top: 32px;">
+            <form onsubmit="salvarMensagem(event)">
+                <div class="input-group">
+                    <label style="font-weight: 600; color: #334155; margin-bottom: 8px; display: block;">Texto da Cobrança</label>
+                    <textarea id="textoMensagem" rows="6" style="width: 100%; padding: 16px; border-radius: 12px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 15px; resize: vertical; line-height: 1.5; outline: none; box-sizing: border-box;" required></textarea>
+                </div>
+
+                <!-- Chips para inserir variáveis -->
+                <div style="margin-top: 12px; margin-bottom: 32px;">
+                    <p style="font-size: 13px; color: #64748b; margin-bottom: 12px;">Toque para inserir variáveis:</p>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button type="button" onclick="inserirVariavel('{{nome_cliente}}')" style="background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 16px; padding: 6px 12px; font-size: 13px; font-weight: 500; cursor: pointer; color: #0f172a; transition: background 0.2s;">{{nome_cliente}}</button>
+                        <button type="button" onclick="inserirVariavel('{{valor}}')" style="background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 16px; padding: 6px 12px; font-size: 13px; font-weight: 500; cursor: pointer; color: #0f172a; transition: background 0.2s;">{{valor}}</button>
+                        <button type="button" onclick="inserirVariavel('{{vencimento}}')" style="background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 16px; padding: 6px 12px; font-size: 13px; font-weight: 500; cursor: pointer; color: #0f172a; transition: background 0.2s;">{{vencimento}}</button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-login" style="background-color: #10b981; margin-top: 0;">Salvar Mensagem</button>
+            </form>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

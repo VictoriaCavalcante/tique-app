@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tique - Recuperar Senha</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- CSS Exclusivo desta tela para "vencer" o alinhamento centralizado do style.css -->
+    <style>
+        .login-layout {
+            align-items: flex-start !important;
+            padding: 24px !important;
+        }
+        .top-content {
+            text-align: left !important;
+            width: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+        }
+        .middle-content {
+            width: 100% !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-layout">
+        
+        <div class="top-content" style="margin-top: 20px;">
+            <button class="btn-icon" onclick="window.location.href='index.html'" style="margin-bottom: 24px; background: transparent; border: 1px solid #e2e8f0; width: 44px; height: 44px; border-radius: 12px; display: flex; justify-content: center; align-items: center; cursor: pointer;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </button>
+            
+            <h1 class="logo-text" style="font-size: 28px; margin-bottom: 8px;">Recuperar Senha</h1>
+            <p class="subtitle" style="margin: 0;">Digite seu e-mail cadastrado. Iremos redefinir a sua senha para uma senha padrão.</p>
+        </div>
+
+        <div class="middle-content" style="margin-top: 32px;">
+            <form id="recuperarForm" onsubmit="simularRecuperacao(event)">
+                <div class="input-group">
+                    <label>E-mail</label>
+                    <input type="email" id="recuperarEmail" placeholder="seu@email.com" required>
+                </div>
+                
+                <button type="submit" class="btn-login" style="margin-top: 16px;">Redefinir Senha</button>
+            </form>
+            
+            <!-- Mensagem de Sucesso Atualizada -->
+            <div id="mensagemSucesso" style="display: none; margin-top: 24px; padding: 20px; background-color: #d1fae5; border-radius: 12px; text-align: center;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 8px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                
+                <h4 style="color: #065f46; font-size: 16px; margin-bottom: 12px;">Senha Redefinida!</h4>
+                
+                <!-- Área da Senha com Blur e Olhinho -->
+                <div style="color: #047857; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 20px;">
+                    <span>Sua nova senha é:</span>
+                    <strong id="senhaPadrao" style="filter: blur(4px); transition: filter 0.3s ease; user-select: none; font-size: 18px;">123</strong>
+                    
+                    <button type="button" onclick="alternarVisibilidadeSenha()" style="background: transparent; border: none; cursor: pointer; display: flex; align-items: center; padding: 4px; color: #047857;" title="Revelar senha">
+                        <svg id="iconeOlhoPadrao" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+                
+                <button type="button" onclick="window.location.href='index.html'" style="background: #e2e8f0; border: none; color: #475569; font-weight: 600; cursor: pointer; padding: 10px 24px; border-radius: 8px; transition: background 0.2s; width: 100%;">
+                    Voltar ao Login
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
