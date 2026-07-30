@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tique - Editar Cobrança</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container dashboard-layout">
+        
+        <div class="scroll-area" style="padding-bottom: 32px;">
+            
+            <!-- Cabeçalho com botão de Voltar para a tela de detalhes da cobrança -->
+            <header class="cobrancas-header flex-header" style="align-items: center; gap: 12px; margin-bottom: 32px;">
+                <!-- O botão volta para a lista, mas pode ser ajustado para voltar para os detalhes específicos -->
+                <button type="button" class="btn-icon" onclick="window.history.back()" style="width: 48px; height: 48px;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                </button>
+                <h2 style="margin: 0; font-size: 24px;">Editar Cobrança</h2>
+            </header>
+
+            <!-- Formulário -->
+            <form id="formEditarCobranca" onsubmit="salvarEdicaoCobranca(event)">
+                
+                <!-- Campo oculto para guardar o ID da cobrança que está sendo editada -->
+                <input type="hidden" id="editId">
+
+                <div class="input-group">
+                    <label>Nome do Cliente</label>
+                    <input type="text" id="editNome" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>Valor da Cobrança (R$)</label>
+                    <input type="number" step="0.01" id="editValor" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>Data de Vencimento</label>
+                    <input type="date" id="editData" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>WhatsApp (com DDD)</label>
+                    <input type="text" id="editWhats" required>
+                </div>
+
+                <!-- Botões de Ação -->
+                <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 24px;">
+                    <!-- Botão de Salvar -->
+                    <button type="submit" class="btn-login">Salvar Alterações</button>
+                    
+                    <!-- Botão de Excluir -->
+                    <!-- Coloquei um estilo inline vermelho para destacar, mas você pode mover para o seu style.css como .btn-danger -->
+                    <button type="button" class="btn-login" style="background-color: #ef4444; border-color: #ef4444;" onclick="excluirCobranca()">Excluir Cobrança</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Este script deve rodar assim que a tela carregar para preencher os dados.
+        // O ideal é que ele fique no seu script.js, mas coloquei aqui para ilustrar a lógica.
+        window.onload = function() {
+            carregarDadosDaCobranca();
+        };
+    </script>
+</body>
+</html>

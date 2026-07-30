@@ -302,7 +302,7 @@ function renderizarClientes(clientesParam) {
         }
 
         const card = `
-            <div class="cliente-card-compact">
+            <div class="cliente-card-compact" onclick="abrirEdicao(event, ${cliente.id})" style="cursor: pointer; transition: 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
                 <div class="cliente-avatar ${cliente.cor}">
                     ${cliente.avatar}
                 </div>
@@ -318,6 +318,7 @@ function renderizarClientes(clientesParam) {
             </div>
         `;
         lista.innerHTML += card;
+
     });
 }
 
@@ -769,4 +770,149 @@ function renderizarDashboard(periodo) {
             `;
         }).join('');
     }
+}
+
+
+
+// =========================================
+// 11. TELA DE EDITAR COBRANÇA
+// =========================================
+
+// Carrega os dados ao abrir a tela editar-cobranca.html
+function carregarDadosDaCobranca() {
+    // Captura o ID que passaremos pela URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const idParam = urlParams.get('id');
+
+    if (!idParam) {
+        alert("Nenhuma cobrança selecionada.");
+        window.location.href = "cobrancas.html";
+        return;
+    }
+
+    const id = parseInt(idParam);
+    const clientes = obterClientes();
+    
+    // Procura na lista o cliente que tem o mesmo ID
+    const cliente = clientes.find(c => c.id === id);
+
+    if (!cliente) {
+        alert("Cobrança não encontrada.");
+        window.location.href = "cobrancas.html";
+        return;
+    }
+
+    // Preenche os campos invisíveis e visíveis
+    document.getElementById("editId").value = cliente.id;
+    document.getElementById("editNome").value = cliente.nome;
+    document.getElementById("editValor").value = cliente.valorNum;
+    
+    // O input type="date" no HTML exige o formato AAAA-MM-DD. 
+    // Como salvamos como DD/MM/AAAA, precisamos inverter:
+    if (cliente.data) {
+        const partes = cliente.data.split('/'); // [DD, MM, AAAA]
+        if (partes.length === 3) {
+            const dataFormatadaParaInput = `${partes[2]}-${partes[1]}-${partes[0]}`;
+            document.getElementById("editData").value = dataFormatadaParaInput;
+        }
+    }
+
+    document.getElementById("editWhats").value = cliente.tel;
+}
+
+// Salva as alterações feitas no formulário
+function salvarEdicaoCobranca(event) {
+    event.preventDefault();
+
+    try {
+        const id = parseInt(document.getElementById("editId").value);
+        const nome = document.getElementById("editNome").value.trim();
+        const valor = parseFloat(document.getElementById("editValor").value);
+        const dataRaw = document.getElementById("editData").value; // Está como AAAA-MM-DD
+        let whats = document.getElementById("editWhats").value;
+
+        // Limpa o WhatsApp e garante o DDD BR
+        whats = whats.replace(/\D/g, ''); 
+        if(!whats.startsWith('55') && whats.length > 0) whats = '55' + whats;
+
+        // Formata data e valor de volta para o padrão de exibição
+        const partesData = dataRaw.split("-");
+        const dataFormatada = `${partesData[2]}/${partesData[1]}/${partesData[0]}`;
+        const valorFormatado = valor.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+
+        // Refaz as iniciais caso o usuário tenha mudado o nome do cliente
+        const partesNome = nome.split(" ").filter(p => p.trim() !== "");
+        let iniciais = partesNome[0].charAt(0).toUpperCase();
+        if (partesNome.length > 1) {
+            iniciais += partesNome[partesNome.length - 1].charAt(0).toUpperCase();
+        }
+
+        let clientes = obterClientes();
+        const index = clientes.findIndex(c => c.id === id);
+
+        if (index !== -1) {
+            // Atualiza apenas os dados modificáveis
+            clientes[index].nome = nome;
+            clientes[index].valorNum = valor;
+            clientes[index].valor = valorFormatado;
+            clientes[index].data = dataFormatada;
+            clientes[index].tel = whats;
+            clientes[index].avatar = iniciais;
+            
+            // Revalida o status caso ele fosse "ATRASADO" mas a data tenha sido jogada para frente
+            const hoje = new Date();
+            hoje.setHours(0, 0, 0, 0);
+            const novaDataObj = new Date(partesData[0], partesData[1] - 1, partesData[2]);
+            if (novaDataObj >= hoje && clientes[index].status === "ATRASADO") {
+                clientes[index].status = "A Vencer";
+            }
+
+            // Salva de volta
+            localStorage.setItem('tique_clientes', JSON.stringify(clientes));
+            alert("Cobrança atualizada com sucesso!");
+            window.location.href = "cobrancas.html";
+        } else {
+            alert("Erro ao localizar cobrança para edição.");
+        }
+    } catch (erro) {
+        console.error("Erro ao salvar edição:", erro);
+        alert("Ocorreu um erro ao processar os dados.");
+    }
+}
+
+// Exclui a cobrança definitivamente do banco
+function excluirCobranca() {
+    const id = parseInt(document.getElementById("editId").value);
+    
+    // Confirmação de segurança nativa
+    if (!confirm("Tem certeza que deseja EXCLUIR esta cobrança? Esta ação não pode ser desfeita.")) {
+        return;
+    }
+
+    let clientes = obterClientes();
+    
+    // Filtra a lista removendo apenas o cliente com o ID selecionado
+    const clientesRestantes = clientes.filter(c => c.id !== id);
+
+    localStorage.setItem('tique_clientes', JSON.stringify(clientesRestantes));
+    alert("Cobrança excluída com sucesso.");
+    window.location.href = "cobrancas.html";
+}
+
+
+// =========================================
+// ABRIR EDIÇÃO CLICANDO NO CARD
+// =========================================
+function abrirEdicao(event, id) {
+    // Verifica se o usuário clicou especificamente em um botão (<button>) ou link (<a>) dentro do card
+    const clicouNoBotao = event.target.closest('button');
+    const clicouNoLink = event.target.closest('a');
+
+    // Se ele clicou no botão Pago ou no link de Cobrar (Whats), nós cancelamos a abertura da edição
+    if (clicouNoBotao || clicouNoLink) {
+        return; 
+    }
+
+    // Se ele clicou em qualquer outra área vazia do card, vai para a tela de editar
+    window.location.href = `editar-cobranca.html?id=${id}`;
 }
