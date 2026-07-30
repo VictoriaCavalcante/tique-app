@@ -318,7 +318,6 @@ function renderizarClientes(clientesParam) {
             </div>
         `;
         lista.innerHTML += card;
-
     });
 }
 
